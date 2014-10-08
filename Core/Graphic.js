@@ -94,7 +94,18 @@ function getShortedPath(arr, src, tar) {
  */
 
 
-/*BFS遍历图*/
+/*
+BFS遍历图
+
+ var arr = [
+ [0, 1, 0, 1],
+ [0, 0, 1, 1],
+ [0, 0, 0, 0],
+ [0, 0, 0, 0]
+ ];
+
+ bfsGraphic(arr);
+* */
 
 function bfsGraphic(arr){
     var len = arr.length, queue = [], book = [];
@@ -129,23 +140,25 @@ function bfsGraphic(arr){
 }
 
 /*
- //用例
- var arr = [
- [0, 1, 0, 1],
- [0, 0, 1, 1],
- [0, 0, 0, 0],
- [0, 0, 0, 0]
- ];
+dijkstra求单源最短路径
 
- bfsGraphic(arr);
+var arr = [
+    [0, 1, 12, -1, -1, -1],
+    [-1, 0, 9, 3, -1, -1],
+    [-1, -1, 0, -1, 5, -1],
+    [-1, -1, 4, 0, 13, 15],
+    [-1, -1, -1, -1, 0, 4],
+    [-1, -1, -1, -1, -1, 0]
+];
 
- */
+dijkstra(arr);
+*/
 
-
-/*dijkstra求最短路径*/
-
-function dijkstar(arr) {
-    var len = arr[0].length, dis = [], book = [], i = 0, j, min, u;
+function dijkstra(arr) {
+    var len = arr[0].length,
+        dis = [], //所有最短路径
+        book = [], //已加入集合P的点
+        i = 0, j, min, u;
 
     for(i = 0; i < len; i++) {
         dis[i] = arr[0][i];
@@ -156,17 +169,16 @@ function dijkstar(arr) {
     for(i = 1; i < len; i++) {
 
         min = -1;
-        for(j = 1; j < len; j++){
-            if(book[j] !== 1 && (min === -1 || min > dis[j])){
+        for(j = 1; j < len; j++){//求Q集合中离源点最近的点
+            if(book[j] !== 1 && (dis[j] !== -1 && min > dis[j] || min === -1)){
                 min = dis[j];
                 u = j;
             }
         }
 
-        book[u] = 1;
-        dis[u] = min;
+        book[u] = 1;//把找到的点加入集合P
 
-        for(j = 1; j < len; j++) {
+        for(j = 1; j < len; j++) {//
             if(arr[u][j] !== -1){
                 if(dis[j] === -1 || dis[j] > dis[u] + arr[u][j]) {
                     dis[j] = dis[u] + arr[u][j];
@@ -176,6 +188,5 @@ function dijkstar(arr) {
     }
 
     console.log(dis.join(' , '));
-
-
+    return dis;
 }
