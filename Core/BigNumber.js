@@ -6,7 +6,7 @@
 
 var BigNmuber = {
     add: function (n, m) {
-        var rect = [], a = 0, len1, len2;
+        var rect = [], a = 0;//进位
         n = n.split('');
         m = m.split('');
 
@@ -28,13 +28,17 @@ var BigNmuber = {
             a = Math.floor(a / 10);
         }
 
+        if(a > 0){
+            rect.push(a);
+        }
+
         rect = rect.reverse().join('');
 
         return rect;
     },
     minus: function (n, m) {
         var rect = [],
-            a = 0,
+            a = 0,//借位
             flag = '',
             nArr = n.split(''),
             mArr = m.split('');
@@ -72,10 +76,41 @@ var BigNmuber = {
                 a = -1;
             } else {
                 rect.push(a);
+                a = 0;
             }
         }
 
         rect = rect.reverse().join('');
+        return rect;
+    },
+    multi: function (n, m) {
+        var nArr = n.split('').reverse(),
+            mArr = m.split('').reverse(),
+            i = 0, j = 0, nLen = nArr.length, mLen = mArr.length, rect = [], len, t;
+
+        for (; i < nLen; i++) {//按位相乘
+            for (j = 0; j < mLen; j++) {
+                rect[i + j] = rect[i + j] || 0;
+                rect[i + j] += parseInt(nArr[i]) * parseInt(mArr[j]);
+            }
+        }
+
+        len = rect.length;
+
+        for (i = 0; i < len; i++) {//处理进位
+            t = rect[i];
+            rect[i] = t % 10;
+            t = Math.floor(t / 10);
+            if (t > 0) {
+                if (i === len - 1) {
+                    rect[i + 1] = 0;
+                }
+                rect[i + 1] += t;
+            }
+        }
+
+        rect = rect.reverse().join('');
+
         return rect;
     }
 };
