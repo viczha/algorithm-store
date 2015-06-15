@@ -84,6 +84,7 @@ var BigNmuber = {
         return rect;
     },
     multi: function (n, m) {
+
         var nArr = n.split('').reverse(),
             mArr = m.split('').reverse(),
             i = 0, j = 0, nLen = nArr.length, mLen = mArr.length, rect = [], len, t;
